@@ -4,11 +4,11 @@ Walkthrough for demo.
 
 Why you (mostly) should use `import_*` instead of `include_`!
 
-## Playbooks can be imported
+## 1. Playbooks can be imported
 
 An `import_playbook` is available, no include representation available. But `import_playbook` can't be a task
 
-## Title/Name of task shown/not shown
+## 2. Title/Name of task shown/not shown
 
 Change from `import_tasks` to `include_tasks`, with *include* a separate task is used and shown.
 
@@ -43,12 +43,12 @@ ok: [localhost] => {
 ...
 ```
 
-## start-at-task not working
+## 3. start-at-task not working
 
 With import-statements, using `--start-at-task "Configure something"` works, it will skip the installation tasks.  
 Using it with include-statements results in an error.
 
-## Syntax-Errors not recognized
+## 4. Syntax-Errors not recognized
 
 Create syntax error in imported/included file, e.g.
 
@@ -66,14 +66,14 @@ Error is recognized.
 
 Run `ansible-playbook playbook.yml --syntax-check` or `ansible-lint`, no errors are shown!
 
-## Loops
+## 5. Loops
 
 Loops only work with `include_*` statements. Add `loop: "{{ range(0, 2) | list }}"` to task.
 
-## Tags
+## 6. Tags
 
 Tags within *included* task-files are not used.  
-Add `tags: configure` to task in `configuration.yml`. Run playbook with `-t configure`
+Add `tags: configure` to imported task-file `configuration.yml`. Run playbook with `-t configure`
 
 Start with demoing import.
 
@@ -99,7 +99,7 @@ No tasks (except fact gathering) are executed, you have to use this to run all t
 
 Both *tag* statements are absolutely necessary to run all tasks
 
-## Variable-Files
+## 7. Variable-Files
 
 Using `include_vars` available, no representation for import-statements.
 
@@ -121,7 +121,7 @@ Add this to `configuration.yml`:
 
 For import-statements, use `vars_files`, this also works for include statements.
 
-## Use files with variable
+## 8. Use files with variable
 
 Add this to `playbook.yml`:
 
@@ -132,7 +132,7 @@ Add this to `playbook.yml`:
 
 This works with *include_tasks*, not not with *import_tasks*.
 
-## Handlers
+## 9. Handlers
 
 Start demo with include.
 
@@ -154,11 +154,11 @@ Adjust task in `configuration.yml` to always trigger handler:
   notify: Restart services
 ```
 
-## include
+### include
 
 Works as expected, both tasks in the included file are run.
 
-## import
+### import
 
 Using *import_tasks* in handler does not work.  
 It can be worked around by not notifying the handler itself, but the tasks within the imported file.
@@ -173,7 +173,7 @@ It can be worked around by not notifying the handler itself, but the tasks withi
     - Restart Service2
 ```
 
-## Task options
+## 10. Task options
 
 Options like `become` act differently. Add the following tasks to `installation.yml` (either ensure you can run without having to provide sudo password or run with `-k`):
 
