@@ -8,6 +8,14 @@ Why you (mostly) should use `import_*` instead of `include_`!
 
 An `import_playbook` is available, no include representation available. But `import_playbook` can't be a task
 
+Add this as a task:
+
+```yaml
+    - ansible.builtin.import_playbook: another-playbook.yml
+```
+
+Results in syntax error, move back to play-level.
+
 ## 2. Title/Name of task shown/not shown
 
 Change from `import_tasks` to `include_tasks`, with *include* a separate task is used and shown.
@@ -130,7 +138,7 @@ Add this to `playbook.yml`:
       ansible.builtin.import_tasks: "{{ ansible_distribution }}.yml"
 ```
 
-This works with *include_tasks*, not not with *import_tasks*.
+This works with *include_tasks*, not with *import_tasks*.
 
 ## 9. Handlers
 
